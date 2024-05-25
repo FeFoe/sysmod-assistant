@@ -43,12 +43,15 @@ const users = {
   [username]: password
 };
 
+// Conditionally apply basic authentication middleware
+if (process.env.DISABLE_AUTH !== 'true') {
+  // Apply basic authentication middleware only if authentication is enabled
+  app.use(basicAuth({
+    users: users,
+    challenge: true
+  }));
+}
 
-// Apply basic authentication middleware
-app.use(basicAuth({
-  users: users,
-  challenge: true
-}));
 
 
 // Serve uploaded files from the 'public/uploads' directory
